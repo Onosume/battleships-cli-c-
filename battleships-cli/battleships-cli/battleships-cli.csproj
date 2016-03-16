@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\GameObjects\Player\Player.cs" />
     <Compile Include="Application\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,7 +53,6 @@
   <ItemGroup>
     <Folder Include="Application\GameObjects\Battleship\" />
     <Folder Include="Application\GameObjects\GameBoard\" />
-    <Folder Include="Application\GameObjects\Player\" />
     <Folder Include="Application\GameProcessor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
