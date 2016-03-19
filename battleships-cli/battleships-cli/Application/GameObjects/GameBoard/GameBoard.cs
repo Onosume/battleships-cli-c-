@@ -4,17 +4,24 @@ namespace battleships_cli.Application.GameObjects.GameBoard
 {
     public class GameBoard
     {
-        private const int BOARD_WIDTH = 10;
-        private const int BOARD_HEIGHT = 10;
-        private const char HIT_MARKER = 'H';
-        private const char MISS_MARKER = 'M';
+        public const int BOARD_WIDTH = 10;
+        public const int BOARD_HEIGHT = 10;
+        public const char HIT_MARKER = 'H';
+        public const char MISS_MARKER = 'M';
+
         private char[,] board;
+
+        // Accessor methods
+        private char[,] Board { get; }
 
         public GameBoard()
         {
             Init();
         }
 
+        /// <summary>
+        /// Sets up the game board
+        /// </summary>
         public void Init()
         {
             board = new char[BOARD_WIDTH, BOARD_HEIGHT];
@@ -28,11 +35,20 @@ namespace battleships_cli.Application.GameObjects.GameBoard
             }
         }
 
+        /// <summary>
+        /// Set a cell as H (hit) or M (miss)
+        /// </summary>
+        /// <param name="posX">Column</param>
+        /// <param name="posY">Row</param>
+        /// <param name="status">M or H</param>
         public void SetCell(int posX, int posY, char status)
         {
             board[posX, posY] = status;
         }
 
+        /// <summary>
+        /// Output the game board to the console
+        /// </summary>
         public void Print()
         {
             for (int i = 0; i < BOARD_WIDTH; i++)

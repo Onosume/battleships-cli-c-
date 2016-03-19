@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\GameObjects\Battleship\Battleship.cs" />
+    <Compile Include="Application\GameObjects\GameBoard\GameBoard.cs" />
     <Compile Include="Application\GameObjects\Player\Player.cs" />
     <Compile Include="Application\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,8 +53,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Application\GameObjects\Battleship\" />
-    <Folder Include="Application\GameObjects\GameBoard\" />
     <Folder Include="Application\GameProcessor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
