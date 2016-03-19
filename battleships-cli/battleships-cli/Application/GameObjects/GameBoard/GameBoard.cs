@@ -1,4 +1,8 @@
-﻿using System;
+﻿// battleships-cli
+// GameBoard.cs
+// Author: Matthew Tinn
+
+using System;
 
 namespace battleships_cli.Application.GameObjects.GameBoard
 {
