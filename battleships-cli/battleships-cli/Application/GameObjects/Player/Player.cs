@@ -10,18 +10,22 @@ namespace battleships_cli.Application.GameObjects.Player
     /// </summary>
     public class Player
     {
-        private int score { get; set; }
-        private int cannonballs { get; set; }
+        private int score;
+        private int cannonballs;
 
-        public Player(int cannonballs)
+        // Accessor Methods
+        public int Score { get; }
+        public int Cannonballs { get; }
+
+        public Player(int numCannonballs)
         {
-            Init(cannonballs);
+            Init(numCannonballs);
         }
         
-        private void Init(int cannonballs)
+        private void Init(int numCannonballs)
         {
             score = 0;
-            this.cannonballs = cannonballs;
+            cannonballs = numCannonballs;
         }
 
         public void TakeShot()

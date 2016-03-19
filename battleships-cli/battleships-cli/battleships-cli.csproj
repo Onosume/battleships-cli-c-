@@ -46,15 +46,14 @@
     <Compile Include="Application\GameObjects\Battleship\Battleship.cs" />
     <Compile Include="Application\GameObjects\GameBoard\GameBoard.cs" />
     <Compile Include="Application\GameObjects\Player\Player.cs" />
+    <Compile Include="Application\GameProcessor\GameProcessor.cs" />
     <Compile Include="Application\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Application\GameProcessor\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

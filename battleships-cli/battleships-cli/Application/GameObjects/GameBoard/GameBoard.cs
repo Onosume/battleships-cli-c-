@@ -8,10 +8,19 @@ namespace battleships_cli.Application.GameObjects.GameBoard
         public const int BOARD_HEIGHT = 10;
         public const char HIT_MARKER = 'H';
         public const char MISS_MARKER = 'M';
-
         private char[,] board;
 
-        // Accessor methods
+        // Accessor Methods
+        public char HitMarker()
+        {
+            return HIT_MARKER;
+        }
+
+        public char MissMarker()
+        {
+            return MISS_MARKER;
+        }
+
         private char[,] Board { get; }
 
         public GameBoard()
