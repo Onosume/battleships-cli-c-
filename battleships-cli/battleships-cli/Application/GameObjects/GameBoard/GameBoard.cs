@@ -6,6 +6,9 @@ using System;
 
 namespace battleships_cli.Application.GameObjects.GameBoard
 {
+    /// <summary>
+    /// Class that represents the game board
+    /// </summary>
     public class GameBoard
     {
         public const int BOARD_WIDTH = 10;

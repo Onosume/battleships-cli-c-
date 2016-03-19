@@ -1,4 +1,8 @@
-﻿using System;
+﻿// battleships-cli
+// GameProcessor.cs
+// Author: Matthew Tinn
+
+using System;
 using System.Collections.Generic;
 using battleships_cli.Application.GameObjects.Player;
 using battleships_cli.Application.GameObjects.Battleship;
@@ -6,6 +10,9 @@ using battleships_cli.Application.GameObjects.GameBoard;
 
 namespace battleships_cli.Application.GameProcessor
 {
+    /// <summary>
+    /// Class that contains the game logic
+    /// </summary>
     public class GameProcessor
     {
         public const int NUM_PLAYER_CANNONBALLS = 24;
@@ -14,19 +21,24 @@ namespace battleships_cli.Application.GameProcessor
 
         private Player player;
         private GameBoard gameBoard;
-        private Battleship[] battleships;
-        private char[] coordinateInput = new char[MAX_INPUT];
+        private Battleship[] battleships; // Array of battleships
+        private char[] coordinateInput = new char[MAX_INPUT]; // Array for characters from input stream
         private bool gameOver;
 
         // Accessor Methods
-        public bool GameOver { get; }
+        public bool GameOver { get { return gameOver; } }
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GameProcessor()
         {
             CreateGame();
         }
 
+        /// <summary>
+        /// Initialises the game
+        /// </summary>
         public void CreateGame()
         {
             gameOver = false;
@@ -35,16 +47,25 @@ namespace battleships_cli.Application.GameProcessor
             CreateBattleships();
         }
 
+        /// <summary>
+        /// Initialises the game board
+        /// </summary>
         public void CreateGameBoard()
         {
             gameBoard = new GameBoard();
         }
 
+        /// <summary>
+        /// Initialises the player
+        /// </summary>
         public void CreatePlayer()
         {
             player = new Player(NUM_PLAYER_CANNONBALLS);
         }
 
+        /// <summary>
+        /// Initialise the battleships
+        /// </summary>
         public void CreateBattleships()
         {
             battleships = new Battleship[NUM_BATTLESHIPS];
@@ -57,6 +78,11 @@ namespace battleships_cli.Application.GameProcessor
             }
         }
 
+        /// <summary>
+        /// Generates the cell positions for a battleship
+        /// </summary>
+        /// <param name="battleshipSize">The size of the battleship</param>
+        /// <returns>List of positions</returns>
         public List<string> GeneratePosition(int battleshipSize)
         {
             List<string> cells = new List<string>();
@@ -186,6 +212,9 @@ namespace battleships_cli.Application.GameProcessor
             return cells;
         }
 
+        /// <summary>
+        /// Print the intro text to the console
+        /// </summary>
         public void WriteIntro()
         {
             Console.WriteLine("***  **** *** *** *   *** *** *  * * *** ***");
@@ -201,6 +230,9 @@ namespace battleships_cli.Application.GameProcessor
             Console.WriteLine("Hit all of the ships before your cannonballs run out!");
         }
 
+        /// <summary>
+        /// Display information about the current game
+        /// </summary>
         public void DisplayCurrentGame()
         {
             Console.WriteLine("Cannonballs remaining: " + player.Cannonballs);
@@ -209,12 +241,19 @@ namespace battleships_cli.Application.GameProcessor
             gameBoard.Print();
         }
 
+        /// <summary>
+        /// Take coordinates from player
+        /// </summary>
         public void TakePlayerInput()
         {
             Console.WriteLine("Enter a coordinate:");
             coordinateInput = Console.ReadLine().ToCharArray();
         }
 
+        /// <summary>
+        /// Determine if the player has hit a ship; perform game logic
+        /// </summary>
+        /// <returns></returns>
         public bool Shoot()
         {
             bool validAction = true;
@@ -224,6 +263,7 @@ namespace battleships_cli.Application.GameProcessor
             int positionIndexX = 0;
             int positionIndexY = 0;
 
+            // Convert the input into coordinates
             try
             {
                 positionIndexX = ConvertCharacterToIndex(coordinateInput[0]);
@@ -249,6 +289,7 @@ namespace battleships_cli.Application.GameProcessor
             }
 
             // If the characters are valid, check the position markers of the ships
+            // If the positions match it is a hit
             string hitPosition = new string(coordinateInput);
             Console.WriteLine("Hit position: " + hitPosition);
             bool hit = false;
@@ -300,6 +341,11 @@ namespace battleships_cli.Application.GameProcessor
             return true;
         }
 
+        /// <summary>
+        /// Converts char A-Z or a-z to an int
+        /// </summary>
+        /// <param name="character">Character to convert</param>
+        /// <returns>Converted interger</returns>
         public int ConvertCharacterToIndex(char character)
         {
             if (character == 'A' || character == 'a' || character == '1')
@@ -348,11 +394,18 @@ namespace battleships_cli.Application.GameProcessor
             }
         }
 
+        /// <summary>
+        /// Outputs the player score
+        /// </summary>
         public void OutputPlayerScore()
         {
             Console.WriteLine("\nYour current score is: \n" + player.Score + "\n");
         }
 
+        /// <summary>
+        /// Checks if player has won the game
+        /// </summary>
+        /// <returns>True/false on game win state</returns>
         public bool AllShipsSunk()
         {
             if (battleships[0].Sunk && battleships[1].Sunk && battleships[2].Sunk)
