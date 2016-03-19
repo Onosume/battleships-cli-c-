@@ -21,8 +21,11 @@ namespace battleships_cli.Application.GameObjects.GameBoard
             return MISS_MARKER;
         }
 
-        private char[,] Board { get; }
+        private char[,] Board { get { return board; } }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GameBoard()
         {
             Init();
