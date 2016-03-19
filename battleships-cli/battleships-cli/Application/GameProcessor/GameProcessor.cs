@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using battleships_cli.Application.GameObjects.Player;
 using battleships_cli.Application.GameObjects.Battleship;
 using battleships_cli.Application.GameObjects.GameBoard;
@@ -52,11 +49,11 @@ namespace battleships_cli.Application.GameProcessor
         {
             battleships = new Battleship[NUM_BATTLESHIPS];
 
-            battleships[0].Init(GeneratePosition(5));
+            battleships[0] = new Battleship(GeneratePosition(5));
 
             for (int i = 1; i < NUM_BATTLESHIPS; i++)
             {
-                battleships[1].Init(GeneratePosition(4));
+                battleships[i] = new Battleship(GeneratePosition(4));
             }
         }
 
@@ -252,14 +249,15 @@ namespace battleships_cli.Application.GameProcessor
             }
 
             // If the characters are valid, check the position markers of the ships
-            string hitPosition = coordinateInput.ToString();
+            string hitPosition = new string(coordinateInput);
+            Console.WriteLine("Hit position: " + hitPosition);
             bool hit = false;
 
             for (int i = 0; i < NUM_BATTLESHIPS; i++)
             {
                 string checkPosition;
 
-                List<string> positionList = battleships[i].Position;
+                List<string> positionList = new List<string>(battleships[i].Position);
 
                 int index = 0;
 

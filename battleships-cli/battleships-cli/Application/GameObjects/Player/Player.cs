@@ -14,8 +14,8 @@ namespace battleships_cli.Application.GameObjects.Player
         private int cannonballs;
 
         // Accessor Methods
-        public int Score { get; }
-        public int Cannonballs { get; }
+        public int Score { get { return score; } }
+        public int Cannonballs { get { return cannonballs; } }
 
         public Player(int numCannonballs)
         {

@@ -17,9 +17,9 @@ namespace battleships_cli.Application.GameObjects.Battleship
         private int[] positionsHit = new int[MAX_BATTLESHIP_LENGTH];
 
         // Accessor Methods
-        public bool Sunk { get; }
-        public List<string> Position { get; }
-        public int Health { get; }
+        public bool Sunk { get { return sunk; } }
+        public List<string> Position { get { return position; } }
+        public int Health { get { return health; } }
 
         public Battleship(List<string> position)
         {
