@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using battleships_cli.Application.GameObjects.Player;
 using battleships_cli.Application.GameObjects.Battleship;
 using battleships_cli.Application.GameObjects.GameBoard;
@@ -25,6 +26,8 @@ namespace battleships_cli.Application.GameProcessor
         private char[] coordinateInput = new char[MAX_INPUT]; // Array for characters from input stream
         private bool gameOver;
 
+        private Random[] rands = new Random[NUM_BATTLESHIPS*2];
+
         // Accessor Methods
         public bool GameOver { get { return gameOver; } }
 
@@ -44,6 +47,7 @@ namespace battleships_cli.Application.GameProcessor
             gameOver = false;
             CreateGameBoard();
             CreatePlayer();
+            SeedRands();
             CreateBattleships();
         }
 
@@ -64,17 +68,35 @@ namespace battleships_cli.Application.GameProcessor
         }
 
         /// <summary>
+        /// Seeds the Random objects
+        /// </summary>
+        public void SeedRands()
+        {
+            for (int i = 0; i < NUM_BATTLESHIPS*2; i++)
+            {
+                Thread.Sleep(100);
+                rands[i] = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            }
+        }
+
+        /// <summary>
         /// Initialise the battleships
         /// </summary>
         public void CreateBattleships()
         {
             battleships = new Battleship[NUM_BATTLESHIPS];
 
-            battleships[0] = new Battleship(GeneratePosition(5));
+            int currentRandIndex1 = 0;
+            int currentRandIndex2 = 1;
+
+            battleships[0] = new Battleship(GeneratePosition(5, currentRandIndex1, currentRandIndex2));
 
             for (int i = 1; i < NUM_BATTLESHIPS; i++)
             {
-                battleships[i] = new Battleship(GeneratePosition(4));
+                currentRandIndex1 += 2;
+                currentRandIndex2 += 2;
+
+                battleships[i] = new Battleship(GeneratePosition(4, currentRandIndex1, currentRandIndex2));
             }
         }
 
@@ -83,7 +105,7 @@ namespace battleships_cli.Application.GameProcessor
         /// </summary>
         /// <param name="battleshipSize">The size of the battleship</param>
         /// <returns>List of positions</returns>
-        public List<string> GeneratePosition(int battleshipSize)
+        public List<string> GeneratePosition(int battleshipSize, int randIndex1, int randIndex2)
         {
             List<string> cells = new List<string>();
             string[] usedPositions = new string[battleshipSize];
@@ -99,14 +121,14 @@ namespace battleships_cli.Application.GameProcessor
             // Generate a rand 65 - 74
             min = 65;
             max = 74;
-            Random rand1 = new Random();
-            char randChar = (char)rand1.Next(min, max);
+            Random rand1 = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            char randChar = (char)rands[randIndex1].Next(min, max);
 
             // Generate a rand number 1 - 10 as an ASCII character
             min = 48;
             max = 57;
-            Random rand2 = new Random();
-            char randNum = (char)rand2.Next(min, max);
+            Random rand2 = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            char randNum = (char)rands[randIndex2].Next(min, max);
 
             if (randNum == '0')
             {
@@ -258,27 +280,23 @@ namespace battleships_cli.Application.GameProcessor
         {
             bool validAction = true;
 
-            player.TakeShot();
-
             int positionIndexX = 0;
             int positionIndexY = 0;
 
             // Convert the input into coordinates
-            try
-            {
-                positionIndexX = ConvertCharacterToIndex(coordinateInput[0]);
+            positionIndexX = ConvertCharacterToIndex(coordinateInput[0]);
 
-                if (coordinateInput[1] == '1' && coordinateInput[2] == '0')
-                {
-                    positionIndexY = 9;
-                }
-                else
-                {
-                    positionIndexY = ConvertCharacterToIndex(coordinateInput[1]);
-                }
+            if (coordinateInput.Length == 3 && coordinateInput[1] == '1' && coordinateInput[2] == '0')
+            {
+                positionIndexY = 9;
             }
-            catch
-            {   
+            else
+            {
+                positionIndexY = ConvertCharacterToIndex(coordinateInput[1]);
+            }
+
+            if (positionIndexX == -1 || positionIndexY == -1)
+            {
                 validAction = false;
             }
 
@@ -288,10 +306,12 @@ namespace battleships_cli.Application.GameProcessor
                 return false;
             }
 
+            player.TakeShot();
+
             // If the characters are valid, check the position markers of the ships
             // If the positions match it is a hit
             string hitPosition = new string(coordinateInput);
-            Console.WriteLine("Hit position: " + hitPosition);
+
             bool hit = false;
 
             for (int i = 0; i < NUM_BATTLESHIPS; i++)
